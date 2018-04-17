@@ -246,6 +246,7 @@
                             if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height / 2, 100, 50), "Next level"))
                             {
                                 level++;
+				reStart();
                             }
                         }
                         disk.reStart();
