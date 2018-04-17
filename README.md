@@ -178,12 +178,7 @@
                             {
                                 if (hit.transform.tag == "Disk")
                                 {
-                                    if (sceneController.disk.selectedDisk.color == Color.green)
-                                        sceneController.count++;
-                                    else if (sceneController.disk.selectedDisk.color == Color.yellow)
-                                        sceneController.count += 2;
-                                    else if (sceneController.disk.selectedDisk.color == Color.red)
-                                        sceneController.count += 3;
+                                    sceneController.score(hit.transform.name);
                                     sceneController.disk.destroy(hit.transform.name);
                                 }
                             }
@@ -256,6 +251,16 @@
                         reStart();
                     }
                 }
+		
+		public void score(string name)
+    		{
+        		if (disk.findDisk(name).color == Color.green)
+            			count++;
+        		else if (disk.findDisk(name).color == Color.yellow)
+            			count += 2;
+        		else if (disk.findDisk(name).color == Color.red)
+            			count += 3;
+    		}
             }
     + 飞碟
 
@@ -276,6 +281,7 @@
                 public float speed;  //飞行速度
                 public Vector3 direction;  //目标位置
                 public GameObject Disk;
+		public string name;
 
                 public disk(Color color)   //green,yellow,red
                 {
@@ -309,6 +315,7 @@
                     refresh();
                     Disk = GameObject.Instantiate(Resources.Load("Perfabs/Disk", typeof(GameObject)), position, Quaternion.identity, null) as GameObject;
                     Disk.GetComponent<MeshRenderer>().material.color = this.color;
+		    Disk.name = name;
                 }
             }
     + 飞碟工厂
@@ -369,7 +376,7 @@
                         disk temp = new disk(colors[color]);
                         used.Add(temp);
                     }
-                    used[used.Count - 1].Disk.name = no.ToString();
+                    used[used.Count - 1].name = no.ToString();
                     no++;
                     selectedDisk = used[used.Count - 1];
                     return used[used.Count - 1];
